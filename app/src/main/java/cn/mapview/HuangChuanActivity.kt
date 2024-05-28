@@ -11,5 +11,11 @@ class HuangChuanActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHuangChuanBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initView()
+    }
+
+    private fun initView() {
+
     }
 }

@@ -15,11 +15,12 @@ public class SvgPathToAndroidPath {
     private int svgPathLenght = 0;
     private String svgPath = null;
     private int mIndex;
-    private float scale=1.0f;
+    private float scale = 1.0f;
     private List<Integer> cmdPositions = new ArrayList<>();
 
     /**
      * 设置画路径时，相比原来的倍数,默认1.0，svg的总宽为565像素，总高为594
+     *
      * @param scale
      */
     public void setScale(float scale) {
@@ -35,13 +36,13 @@ public class SvgPathToAndroidPath {
      * Q x1,y1,x,y
      * S x2,y2,x,y
      * T x,y
-     * */
+     */
     public Path parser(String svgPath) {
         this.svgPath = svgPath;
         svgPathLenght = svgPath.length();
         mIndex = 0;
         Path lPath = new Path();
-        
+
         lPath.setFillType(Path.FillType.WINDING);
         //记录最后一个操作点
         PointF lastPoint = new PointF();
@@ -55,41 +56,41 @@ public class SvgPathToAndroidPath {
                 case 'M': {
                     String ps[] = findPoints(i);
                     lastPoint.set(Float.parseFloat(ps[0]), Float.parseFloat(ps[1]));
-                    lPath.moveTo(lastPoint.x*scale, lastPoint.y*scale);
+                    lPath.moveTo(lastPoint.x * scale, lastPoint.y * scale);
                 }
                 break;
                 case 'l':
                 case 'L': {
                     String ps[] = findPoints(i);
                     lastPoint.set(Float.parseFloat(ps[0]), Float.parseFloat(ps[1]));
-                    lPath.lineTo(lastPoint.x*scale, lastPoint.y*scale);
+                    lPath.lineTo(lastPoint.x * scale, lastPoint.y * scale);
                 }
                 break;
                 case 'h':
                 case 'H': {//基于上个坐标在水平方向上划线，因此y轴不变
                     String ps[] = findPoints(i);
                     lastPoint.set(Float.parseFloat(ps[0]), lastPoint.y);
-                    lPath.lineTo(lastPoint.x*scale, lastPoint.y*scale);
+                    lPath.lineTo(lastPoint.x * scale, lastPoint.y * scale);
                 }
                 break;
                 case 'v':
                 case 'V': {//基于上个坐标在水平方向上划线，因此x轴不变
                     String ps[] = findPoints(i);
                     lastPoint.set(lastPoint.x, Float.parseFloat(ps[0]));
-                    lPath.lineTo(lastPoint.x*scale, lastPoint.y*scale);
+                    lPath.lineTo(lastPoint.x * scale, lastPoint.y * scale);
                 }
                 break;
                 case 'c':
                 case 'C': {//3次贝塞尔曲线
                     String ps[] = findPoints(i);
                     lastPoint.set(Float.parseFloat(ps[4]), Float.parseFloat(ps[5]));
-                    lPath.cubicTo(Float.parseFloat(ps[0])*scale, Float.parseFloat(ps[1])*scale, Float.parseFloat(ps[2])*scale, Float.parseFloat(ps[3])*scale, Float.parseFloat(ps[4])*scale, Float.parseFloat(ps[5])*scale);
+                    lPath.cubicTo(Float.parseFloat(ps[0]) * scale, Float.parseFloat(ps[1]) * scale, Float.parseFloat(ps[2]) * scale, Float.parseFloat(ps[3]) * scale, Float.parseFloat(ps[4]) * scale, Float.parseFloat(ps[5]) * scale);
                 }
                 break;
                 case 's':
                 case 'S': {//一般S会跟在C或是S命令后面使用，用前一个点做起始控制点
                     String ps[] = findPoints(i);
-                    lPath.cubicTo(lastPoint.x*scale,lastPoint.y*scale, Float.parseFloat(ps[0])*scale, Float.parseFloat(ps[1])*scale, Float.parseFloat(ps[2])*scale, Float.parseFloat(ps[3])*scale);
+                    lPath.cubicTo(lastPoint.x * scale, lastPoint.y * scale, Float.parseFloat(ps[0]) * scale, Float.parseFloat(ps[1]) * scale, Float.parseFloat(ps[2]) * scale, Float.parseFloat(ps[3]) * scale);
                     lastPoint.set(Float.parseFloat(ps[2]), Float.parseFloat(ps[3]));
                 }
                 break;
@@ -97,18 +98,18 @@ public class SvgPathToAndroidPath {
                 case 'Q': {//二次贝塞尔曲线
                     String ps[] = findPoints(i);
                     lastPoint.set(Float.parseFloat(ps[2]), Float.parseFloat(ps[3]));
-                    lPath.quadTo(Float.parseFloat(ps[0])*scale, Float.parseFloat(ps[1])*scale, Float.parseFloat(ps[2])*scale, Float.parseFloat(ps[3])*scale);
+                    lPath.quadTo(Float.parseFloat(ps[0]) * scale, Float.parseFloat(ps[1]) * scale, Float.parseFloat(ps[2]) * scale, Float.parseFloat(ps[3]) * scale);
                 }
                 break;
                 case 't':
                 case 'T': {//T命令会跟在Q后面使用，用Q的结束点做起始点
                     String ps[] = findPoints(i);
-                    lPath.quadTo(lastPoint.x*scale,lastPoint.y*scale, Float.parseFloat(ps[0])*scale, Float.parseFloat(ps[1])*scale);
+                    lPath.quadTo(lastPoint.x * scale, lastPoint.y * scale, Float.parseFloat(ps[0]) * scale, Float.parseFloat(ps[1]) * scale);
                     lastPoint.set(Float.parseFloat(ps[0]), Float.parseFloat(ps[1]));
                 }
                 break;
                 case 'a':
-                case 'A':{//画弧
+                case 'A': {//画弧
                 }
                 break;
                 case 'z':
@@ -116,6 +117,8 @@ public class SvgPathToAndroidPath {
                     lPath.close();
                 }
                 break;
+                default:
+                    break;
             }
         }
         return lPath;
@@ -133,7 +136,7 @@ public class SvgPathToAndroidPath {
             char c = svgPath.charAt(mIndex);
             if ('A' <= c && c <= 'Z') {
                 cmdPositions.add(mIndex);
-            }else if ('a' <= c && c <= 'z') {
+            } else if ('a' <= c && c <= 'z') {
                 cmdPositions.add(mIndex);
             }
             ++mIndex;
