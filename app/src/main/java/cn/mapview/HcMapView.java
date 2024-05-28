@@ -30,8 +30,8 @@ public class HcMapView extends View {
     private float width = 0;
     private int padding = 8;
     private float svgPathScale = 2.5f;
-    private Path[] xPaths = new Path[34];
-    private Paint[] xPaints = new Paint[34];
+    private Path[] xPaths = new Path[11];
+    private Paint[] xPaints = new Paint[11];
     private Paint xPaintsBorder;
     private Paint touchPaint;
     private int selected = -1;
@@ -47,42 +47,50 @@ public class HcMapView extends View {
     private long startOnTouchTime = 0;
     GestureDetector gestureDetector;
 
-    public enum Area {
-        BeiJing("平谷区", 0), TianJin("密云县", 1), ShangHai("门头沟区", 2), ChongQing("昌平区", 3),
-        HeBei("延庆县", 4), ShanXi("怀柔区", 5), LiaoNing("顺义区", 6), HeiLongJiang("房山区", 7),
-        JiLin("通州区", 8), JiangSu("北京市区", 9), ZheJiang("大兴区", 10);
+    public enum HcArea {
+        PingGu("平谷区", 0),
+        MiYun("密云县", 1),
+        MenTouGouQu("门头沟区", 2),
+        ChangPing("昌平区", 3),
+        YanQing("延庆县", 4),
+        HuaiRou("怀柔区", 5),
+        ShunYi("顺义区", 6),
+        FangShan("房山区", 7),
+        TongZhou("通州区", 8),
+        BeijingShi("北京市区", 9),
+        DaXing("大兴区", 10);
         public int value;
         public String name;
 
-        Area(String pName, int pValue) {
+        HcArea(String pName, int pValue) {
             this.name = pName;
             this.value = pValue;
         }
 
-        public static Area valueOf(int value) {    //    手写的从int到enum的转换函数
+        public static HcArea valueOf(int value) {    //    手写的从int到enum的转换函数
             switch (value) {
                 case 0:
-                    return BeiJing;
+                    return PingGu;
                 case 1:
-                    return TianJin;
+                    return MiYun;
                 case 2:
-                    return ShangHai;
+                    return MenTouGouQu;
                 case 3:
-                    return ChongQing;
+                    return ChangPing;
                 case 4:
-                    return HeBei;
+                    return YanQing;
                 case 5:
-                    return ShanXi;
+                    return HuaiRou;
                 case 6:
-                    return LiaoNing;
+                    return ShunYi;
                 case 7:
-                    return HeiLongJiang;
+                    return FangShan;
                 case 8:
-                    return JiLin;
+                    return TongZhou;
                 case 9:
-                    return JiangSu;
+                    return BeijingShi;
                 case 10:
-                    return ZheJiang;
+                    return DaXing;
                 default:
                     return null;
             }
@@ -90,8 +98,8 @@ public class HcMapView extends View {
 
     }
 
-    public void setPaintColor(Area pArea, int color, boolean isFull) {
-        Paint p = xPaints[pArea.value];
+    public void setPaintColor(HcArea pHcArea, int color, boolean isFull) {
+        Paint p = xPaints[pHcArea.value];
         p.setColor(color);
         if (isFull) {
             p.setStyle(Paint.Style.FILL);
@@ -118,13 +126,13 @@ public class HcMapView extends View {
         invalidate();
     }
 
-    public void selectAProvince(Area pArea) {
-        if (selected == pArea.value) {
+    public void selectAProvince(HcArea pHcArea) {
+        if (selected == pHcArea.value) {
             return;
         }
-        selected = pArea.value;
+        selected = pHcArea.value;
         if (this.onProvinceSelectedListener != null) {
-            this.onProvinceSelectedListener.onProvinceSelected(pArea, false);
+            this.onProvinceSelectedListener.onProvinceSelected(pHcArea, false);
         }
         invalidate();
     }
@@ -157,7 +165,6 @@ public class HcMapView extends View {
                 String svgPath = SvgManager.INSTANCE.getHcSvgPaths()[i];
                 Path path = lParser.parser(svgPath);
                 xPaths[i] = path;
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,10 +207,10 @@ public class HcMapView extends View {
     private void computeBounds() {
 
         RectF hljRF = new RectF();
-        xPaths[Area.HeiLongJiang.value].computeBounds(hljRF, true);
+        xPaths[HcArea.HuaiRou.value].computeBounds(hljRF, true);
 
         RectF hnRF = new RectF();
-        xPaths[Area.ZheJiang.value].computeBounds(hnRF, true);
+        xPaths[HcArea.DaXing.value].computeBounds(hnRF, true);
 
         mPointFs[0] = new PointF(0, 0);
         mPointFs[1] = new PointF(hljRF.right, 0);
@@ -285,84 +292,36 @@ public class HcMapView extends View {
         int paddingLeft = 0;
         int paddingTop = 0;
 
-//        if (Area.NeiMengGu == Area.valueOf(index)) {
-//            paddingTop += 180;
-//            paddingLeft -= 120;
-//        }
-//
-//        if (Area.XinJiang == Area.valueOf(index)) {
-//            paddingLeft -= 100;
-//            paddingTop += 50;
-//        }
-//
-//        if (Area.XiZang == Area.valueOf(index)) {
-//            paddingLeft -= 110;
-//
-//        }
-//
-//        if (Area.GanSu == Area.valueOf(index)) {
-//            paddingLeft += 50;
-//            paddingTop += 90;
-//        }
-//        if (Area.ShangHai == Area.valueOf(index)) {
-//            paddingLeft += 7;
-//        }
-//
-//        if (Area.GuangDong == Area.valueOf(index)) {
-//            paddingTop -= 20;
-//        }
-//
-//        if (Area.ShaanXi == Area.valueOf(index)) {
-//            paddingTop += 38;
-//        }
-        if (Area.ShanXi == Area.valueOf(index)) {
+        if (HcArea.HuaiRou == HcArea.valueOf(index)) {
             paddingLeft -= 20;
         }
 
-        if (Area.HeiLongJiang == Area.valueOf(index)) {
+        if (HcArea.FangShan == HcArea.valueOf(index)) {
             paddingLeft -= 25;
             paddingTop += 30;
         }
 
-        if (Area.HeBei == Area.valueOf(index)) {
+        if (HcArea.YanQing == HcArea.valueOf(index)) {
             paddingLeft -= 50;
             paddingTop += 50;
         }
-        if (Area.BeiJing == Area.valueOf(index)) {
+        if (HcArea.PingGu == HcArea.valueOf(index)) {
             paddingLeft += 0;
             paddingTop += 1;
             textPaint.setTextSize(14);
         }
 
-        if (Area.TianJin == Area.valueOf(index)) {
+        if (HcArea.MiYun == HcArea.valueOf(index)) {
             paddingLeft -= 3;
             paddingTop += 10;
             textPaint.setTextSize(14);
         }
-//
-//        if (Area.NingXia == Area.valueOf(index)) {
-//            paddingLeft -= 15;
-//            paddingTop += 10;
-//            textPaint.setTextSize(21);
-//        }
 
-        if (Area.ChongQing == Area.valueOf(index)) {
+        if (HcArea.ChangPing == HcArea.valueOf(index)) {
             paddingLeft -= 25;
             paddingTop += 25;
             textPaint.setTextSize(22);
         }
-
-//        if (Area.JiangXi == Area.valueOf(index)) {
-//            paddingLeft -= 25;
-//        }
-//
-//        if (Area.AnHui == Area.valueOf(index)) {
-//            paddingLeft -= 25;
-//        }
-//        if (Area.YunNan == Area.valueOf(index)) {
-//            paddingLeft -= 25;
-//        }
-
         pCanvas.drawText(SvgManager.INSTANCE.getHcNames()[index], testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
     }
 
@@ -417,7 +376,7 @@ public class HcMapView extends View {
                                     boolean doubleClick = i == selected;
                                     selected = i;
                                     if (this.onProvinceSelectedListener != null) {
-                                        this.onProvinceSelectedListener.onProvinceSelected(Area.valueOf(selected), doubleClick);
+                                        this.onProvinceSelectedListener.onProvinceSelected(HcArea.valueOf(selected), doubleClick);
                                     }
 
                                     invalidate();
@@ -507,7 +466,7 @@ public class HcMapView extends View {
     }
 
     public interface OnProvinceSelectedListener {
-        void onProvinceSelected(Area pArea, boolean repeatClick);
+        void onProvinceSelected(HcArea pHcArea, boolean repeatClick);
     }
 
     public interface OnProvinceDoubleClickListener {
