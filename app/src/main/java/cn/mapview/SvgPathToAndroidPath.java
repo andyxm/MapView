@@ -142,4 +142,5 @@ public class SvgPathToAndroidPath {
             ++mIndex;
         }
     }
+
 }

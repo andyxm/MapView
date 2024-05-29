@@ -33,7 +33,7 @@
             android:layout_width="3000px"
             android:layout_height="3000px">
 
-            <cn.mapview.china.ChinaView
+            <cn.mapview.beijing.BeijingView
                 android:id="@+id/hcMapView"
                 android:layout_width="1450px"
                 android:layout_height="1200px"

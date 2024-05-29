@@ -91,6 +91,7 @@ public abstract class BaseMapView extends View {
             lParser.setScale(svgPathScale);
             for (int i = 0; i < getSvgPaths().length; i++) {
                 String svgPath = getSvgPaths()[i];
+//                Path path = XmlToPathConverter.INSTANCE.convertXmlToPath(this.getContext(),i);
                 Path path = lParser.parser(svgPath);
                 xPaths[i] = path;
 
