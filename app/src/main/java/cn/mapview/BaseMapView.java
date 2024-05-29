@@ -28,8 +28,8 @@ public abstract class BaseMapView extends View {
     private float width = 0;
     private int padding = 8;
     private float svgPathScale = 2.5f;
-    private Path[] xPaths = new Path[34];
-    private Paint[] xPaints = new Paint[34];
+    private Path[] xPaths = new Path[size()];
+    private Paint[] xPaints = new Paint[size()];
     private Paint xPaintsBorder;
     private Paint touchPaint;
     private int selected = -1;
@@ -40,114 +40,12 @@ public abstract class BaseMapView extends View {
     private float maxScale = 6;
     private float scale;
     private float defaultScale = 1;
-    private int selectdColor = -1;
+    private int selectedColor = -1;
     private int mapColor = -1;
     private long startOnTouchTime = 0;
     GestureDetector gestureDetector;
 
-    public enum Area {
-        BeiJing("北京市", 0), TianJin("天津市", 1), ShangHai("上海市", 2), ChongQing("重庆市", 3),
-        HeBei("河北省", 4), ShanXi("山西省", 5), LiaoNing("辽宁省", 6), HeiLongJiang("黑龙江省", 7),
-        JiLin("吉林省", 8), JiangSu("江苏省", 9), ZheJiang("浙江省", 10), AnHui("安徽省", 11), FuJian("福建省", 12),
-        JiangXi("江西省", 13), ShanDong("山东省", 14), HeNan("河南省", 15), HuBei("湖北省", 16), HuNan("湖南省", 17),
-        GuangDong("广东省", 18), HaiNan("海南省", 19), SiChuan("四川省", 20), GuiZhou("贵州省", 21), YunNan("云南省", 22),
-        ShaanXi("陕西省", 23), GanSu("甘肃省", 24), QingHai("青海省", 25), NeiMengGu("内蒙古自治区", 26), GuangXi("广西自治区", 27),
-        XiZang("西藏自治区", 28), NingXia("宁夏自治区", 29), XinJiang("新疆自治区", 30), AoMen("澳门", 31), XiangGang("香港", 32),
-        TaiWan("台湾", 33);
-        public int value;
-        public String name;
-
-        Area(String pName, int pValue) {
-            this.name = pName;
-            this.value = pValue;
-        }
-
-        public static Area valueOf(int value) {    //    手写的从int到enum的转换函数
-            switch (value) {
-                case 0:
-                    return BeiJing;
-                case 1:
-                    return TianJin;
-                case 2:
-                    return ShangHai;
-                case 3:
-                    return ChongQing;
-                case 4:
-                    return HeBei;
-                case 5:
-                    return ShanXi;
-                case 6:
-                    return LiaoNing;
-                case 7:
-                    return HeiLongJiang;
-                case 8:
-                    return JiLin;
-                case 9:
-                    return JiangSu;
-                case 10:
-                    return ZheJiang;
-                case 11:
-                    return AnHui;
-                case 12:
-                    return FuJian;
-                case 13:
-                    return JiangXi;
-                case 14:
-                    return ShanDong;
-                case 15:
-                    return HeNan;
-                case 16:
-                    return HuBei;
-                case 17:
-                    return HuNan;
-                case 18:
-                    return GuangDong;
-                case 19:
-                    return HaiNan;
-                case 20:
-                    return SiChuan;
-                case 21:
-                    return GuiZhou;
-                case 22:
-                    return YunNan;
-                case 23:
-                    return ShaanXi;
-                case 24:
-                    return GanSu;
-                case 25:
-                    return QingHai;
-                case 26:
-                    return NeiMengGu;
-                case 27:
-                    return GuangXi;
-                case 28:
-                    return XiZang;
-                case 29:
-                    return NingXia;
-                case 30:
-                    return XinJiang;
-                case 31:
-                    return AoMen;
-                case 32:
-                    return XiangGang;
-                case 33:
-                    return TaiWan;
-                default:
-                    return null;
-            }
-        }
-
-    }
-
-
-    public void setPaintColor(Area pArea, int color, boolean isFull) {
-        Paint p = xPaints[pArea.value];
-        p.setColor(color);
-        if (isFull) {
-            p.setStyle(Paint.Style.FILL);
-        }
-        invalidate();
-    }
+    public abstract int size();
 
     public void setPaintColor(int index, int color, boolean isFull) {
         Paint p = xPaints[index];
@@ -158,8 +56,8 @@ public abstract class BaseMapView extends View {
         invalidate();
     }
 
-    public void setSelectdColor(int pSelectdColor) {
-        this.selectdColor = pSelectdColor;
+    public void setSelectedColor(int color) {
+        this.selectedColor = color;
         invalidate();
     }
 
@@ -167,40 +65,6 @@ public abstract class BaseMapView extends View {
         mapColor = pMapColor;
         invalidate();
     }
-
-    public void selectAProvince(Area pArea) {
-        if (selected == pArea.value) {
-            return;
-        }
-        selected = pArea.value;
-        if (this.onProvinceSelectedListener != null)
-            this.onProvinceSelectedListener.onProvinceSelected(pArea, false);
-        invalidate();
-    }
-
-    public void selectProvince(String provinceName) {
-        try {
-            Area area = Area.GuangDong;
-            for (int i = 0; i < Area.values().length; i++) {
-                if (Area.values()[i].name.equals(provinceName)) {
-                    area = Area.values()[i];
-                    break;
-                }
-            }
-
-            if (selected == area.value) {
-                return;
-            }
-
-            selected = area.value;
-            if (this.onProvinceSelectedListener != null)
-                this.onProvinceSelectedListener.onProvinceSelected(area, false);
-            invalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public BaseMapView(Context context) {
         super(context);
@@ -225,8 +89,8 @@ public abstract class BaseMapView extends View {
         try {
             SvgPathToAndroidPath lParser = new SvgPathToAndroidPath();
             lParser.setScale(svgPathScale);
-            for (int i = 0; i < ChinaManager.INSTANCE.getSvgPaths().length; i++) {
-                String svgPath = ChinaManager.INSTANCE.getSvgPaths()[i];
+            for (int i = 0; i < getSvgPaths().length; i++) {
+                String svgPath = getSvgPaths()[i];
                 Path path = lParser.parser(svgPath);
                 xPaths[i] = path;
 
@@ -235,6 +99,10 @@ public abstract class BaseMapView extends View {
             e.printStackTrace();
         }
     }
+
+    public abstract String[] getSvgPaths();
+
+    public abstract String[] getNames();
 
     private void initPaints() {
         for (int i = 0; i < xPaints.length; i++) {
@@ -271,10 +139,10 @@ public abstract class BaseMapView extends View {
      */
     private void computeBounds() {
         RectF hljRF = new RectF();
-        xPaths[Area.HeiLongJiang.value].computeBounds(hljRF, true);
+        xPaths[right()].computeBounds(hljRF, true);
 
         RectF hnRF = new RectF();
-        xPaths[Area.HaiNan.value].computeBounds(hnRF, true);
+        xPaths[bottom()].computeBounds(hnRF, true);
 
         mPointFs[0] = new PointF(0, 0);
         mPointFs[1] = new PointF(hljRF.right, 0);
@@ -284,8 +152,11 @@ public abstract class BaseMapView extends View {
         width = hljRF.right + 2 * padding;
         height = hnRF.bottom + 2 * padding;
         Log.e(TAG, "computeBounds: " + width + "  " + height);
-
     }
+
+    public abstract int bottom();
+
+    public abstract int right();
 
     private class mapGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -324,7 +195,6 @@ public abstract class BaseMapView extends View {
         drawSelectedMap(canvas);
     }
 
-
     private void drawBaseMap(Canvas pCanvas) {
         Paint textPaint = new Paint();
 
@@ -342,104 +212,36 @@ public abstract class BaseMapView extends View {
 
             pCanvas.drawPath(xPaths[i], xPaints[i]);
             pCanvas.drawPath(xPaths[i], xPaintsBorder);
-            if (Area.XiangGang == Area.valueOf(i) || Area.AoMen == Area.valueOf(i)) {
+            if (isUnDrawText(i)) {
                 continue;
             }
             drawOneArea(pCanvas, textPaint, i);
         }
     }
 
+    public abstract boolean isUnDrawText(int position);
+
+    public abstract int getPaddingTop(int index);
+
+    public abstract int getPaddingLeft(int index);
+
+    public abstract void setTextSize(Paint textPaint, int index);
+
     private void drawOneArea(Canvas pCanvas, Paint textPaint, int index) {
         RectF testRect = new RectF();
         xPaths[index].computeBounds(testRect, true);
-
-        int paddingLeft = 0;
-        int paddingTop = 0;
-
-        if (Area.NeiMengGu == Area.valueOf(index)) {
-            paddingTop += 180;
-            paddingLeft -= 120;
-        }
-
-        if (Area.XinJiang == Area.valueOf(index)) {
-            paddingLeft -= 100;
-            paddingTop += 50;
-        }
-
-        if (Area.XiZang == Area.valueOf(index)) {
-            paddingLeft -= 110;
-
-        }
-
-        if (Area.GanSu == Area.valueOf(index)) {
-            paddingLeft += 50;
-            paddingTop += 90;
-        }
-        if (Area.ShangHai == Area.valueOf(index)) {
-            paddingLeft += 7;
-        }
-
-        if (Area.GuangDong == Area.valueOf(index)) {
-            paddingTop -= 20;
-        }
-
-        if (Area.ShaanXi == Area.valueOf(index)) {
-            paddingTop += 38;
-        }
-        if (Area.ShanXi == Area.valueOf(index)) {
-            paddingLeft -= 20;
-        }
-
-        if (Area.HeiLongJiang == Area.valueOf(index)) {
-            paddingLeft -= 25;
-            paddingTop += 30;
-        }
-
-        if (Area.HeBei == Area.valueOf(index)) {
-            paddingLeft -= 50;
-            paddingTop += 50;
-        }
-        if (Area.BeiJing == Area.valueOf(index)) {
-            paddingTop += 1;
-            textPaint.setTextSize(14);
-        }
-
-        if (Area.TianJin == Area.valueOf(index)) {
-            paddingLeft -= 3;
-            paddingTop += 10;
-            textPaint.setTextSize(14);
-        }
-
-        if (Area.NingXia == Area.valueOf(index)) {
-            paddingLeft -= 15;
-            paddingTop += 10;
-            textPaint.setTextSize(21);
-        }
-
-        if (Area.ChongQing == Area.valueOf(index)) {
-            paddingLeft -= 25;
-            paddingTop += 25;
-            textPaint.setTextSize(22);
-        }
-
-        if (Area.JiangXi == Area.valueOf(index)) {
-            paddingLeft -= 25;
-        }
-
-        if (Area.AnHui == Area.valueOf(index)) {
-            paddingLeft -= 25;
-        }
-        if (Area.YunNan == Area.valueOf(index)) {
-            paddingLeft -= 25;
-        }
-
-        pCanvas.drawText(ChinaManager.INSTANCE.getProvinceNames()[index], testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
+        int paddingTop;
+        int paddingLeft;
+        paddingTop = getPaddingTop(index);
+        paddingLeft = getPaddingLeft(index);
+        setTextSize(textPaint, index);
+        pCanvas.drawText(getNames()[index], testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
     }
 
     private void drawSelectedMap(Canvas pCanvas) {
         if (selected >= 0) {
-            if (selectdColor != -1) {
-                touchPaint.setColor(selectdColor);
+            if (selectedColor != -1) {
+                touchPaint.setColor(selectedColor);
             }
             pCanvas.drawPath(xPaths[selected], touchPaint);
             Paint textPaint = new Paint();
@@ -486,10 +288,9 @@ public abstract class BaseMapView extends View {
                                 if (re.contains((int) (pMotionEvent.getX() / scale - translateX - padding), (int) (pMotionEvent.getY() / scale - translateY - padding))) {
                                     boolean doubleClick = i == selected;
                                     selected = i;
-                                    if (this.onProvinceSelectedListener != null)
-                                        this.onProvinceSelectedListener.onProvinceSelected(Area.valueOf(selected), doubleClick);
-
-
+                                    if (this.onProvinceSelectedListener != null) {
+                                        this.onProvinceSelectedListener.onProvinceSelected(selected, doubleClick);
+                                    }
                                     invalidate();
                                     return true;
                                 }
@@ -559,17 +360,8 @@ public abstract class BaseMapView extends View {
         return Math.sqrt(x * x + y * y);
     }
 
-    /**
-     * 计算两点之间中心点的距离
-     */
-    private static PointF mid(MotionEvent event) {
-        float midx = event.getX(1) + event.getX(0);
-        float midy = event.getY(1) - event.getY(0);
-        return new PointF(midx / 2, midy / 2);
-    }
-
     public interface OnProvinceSelectedListener {
-        void onProvinceSelected(Area pArea, boolean repeatClick);
+        void onProvinceSelected(int selected, boolean repeatClick);
     }
 
     public interface OnProvinceDoubleClickListener {

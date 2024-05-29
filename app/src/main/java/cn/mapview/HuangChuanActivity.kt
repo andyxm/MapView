@@ -14,6 +14,8 @@ class HuangChuanActivity : AppCompatActivity() {
     var mapWidth: Float = 1450f
     var mapHeight: Float = 1200f
     var screenWidth: Int = 0
+    private val hasProjectColor = -0xbf4910
+    private val selectdColor = -0x14a3b9
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHuangChuanBinding.inflate(layoutInflater)
@@ -26,6 +28,23 @@ class HuangChuanActivity : AppCompatActivity() {
         screenWidth = getScreenWidth(this)
         scale = screenWidth / mapWidth
         binding.hcScrollView.postDelayed({ scaleAndScroll() }, 800)
+        binding.hcMapView.apply {
+            setPaintColor(ChinaView.ChineArea.XinJiang.value, hasProjectColor, true)
+            setPaintColor(ChinaView.ChineArea.GanSu.value, hasProjectColor, true)
+            setPaintColor(ChinaView.ChineArea.SiChuan.value, hasProjectColor, true)
+            setPaintColor(ChinaView.ChineArea.GuiZhou.value, hasProjectColor, true)
+            setPaintColor(ChinaView.ChineArea.GuangDong.value, hasProjectColor, true)
+            setSelectedColor(selectdColor)
+            setOnProvinceDoubleClickListener { scaleAndScroll() }
+            setOnProvinceSelectedListener(BaseMapView.OnProvinceSelectedListener { selected, repeatClick ->
+                if (repeatClick) {
+                    scaleAndScroll()
+                    return@OnProvinceSelectedListener
+                }
+                val chineArea = ChinaView.ChineArea.valueOf(selected)
+                binding.name.text = "名称: ${chineArea.name} 值: ${chineArea.value}"
+            })
+        }
     }
 
     private fun scaleAndScroll() {
