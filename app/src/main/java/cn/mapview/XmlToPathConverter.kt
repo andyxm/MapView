@@ -5,9 +5,12 @@ import android.graphics.Path
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
 import android.util.Log
+import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.PathParser
+import org.w3c.dom.Element
 import java.lang.reflect.Field
+import javax.xml.parsers.DocumentBuilderFactory
 
 
 /**
@@ -72,5 +75,56 @@ object XmlToPathConverter {
             // 这里需要根据您的需求和项目中使用的Drawable类型进行适当的处理
             return ""
         }
+    }
+    fun getRawId(index: Int): Int {
+        return when (index) {
+            0 -> R.raw.path0
+            1 -> R.raw.path1
+            2 -> R.raw.path2
+            3 -> R.raw.path3
+            4 -> R.raw.path4
+            5 -> R.raw.path5
+            6 -> R.raw.path6
+            7 -> R.raw.path7
+            8 -> R.raw.path8
+            9 -> R.raw.path9
+            10 -> R.raw.path10
+            else -> {
+                R.raw.path0
+            }
+        }
+    }
+    fun getXmlValue(context: Context, index: Int): Path? {
+        var path: Path? = null
+        val rawRes = getRawId(index)
+        try {
+            // DocumentBuilder对象
+            val dbf = DocumentBuilderFactory.newInstance()
+            val db = dbf.newDocumentBuilder()
+            //打开输入流
+            val `is` = context.resources.openRawResource(rawRes)
+            // 获取文档对象
+            val doc = db.parse(`is`)
+            //根节点
+            val element = doc.documentElement
+            //获取path元素节点集合
+            val paths = doc.getElementsByTagName("path")
+            for (i in 0 until paths.length) {
+                // 取出每一个元素
+                val node = paths.item(i) as Element
+                //得到android:pathData属性值
+                val pathValue = node.getAttribute("android:pathData")
+                if (pathValue!=null) {
+                    Log.e("TAG", "pathData: $pathValue")
+                    path = PathParser.createPathFromPathData(pathValue)
+                    break
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            Log.e("TAG", "getXmlValue: ", e)
+        }
+
+        return path
     }
 }

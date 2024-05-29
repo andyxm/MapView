@@ -90,9 +90,10 @@ public abstract class BaseMapView extends View {
             SvgPathToAndroidPath lParser = new SvgPathToAndroidPath();
             lParser.setScale(svgPathScale);
             for (int i = 0; i < getSvgPaths().length; i++) {
-                String svgPath = getSvgPaths()[i];
+//                String svgPath = getSvgPaths()[i];
 //                Path path = XmlToPathConverter.INSTANCE.convertXmlToPath(this.getContext(),i);
-                Path path = lParser.parser(svgPath);
+                Path path =  XmlToPathConverter.INSTANCE.getXmlValue(this.getContext(),i);
+//                Path path = lParser.parser(svgPath);
                 xPaths[i] = path;
 
             }
