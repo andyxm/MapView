@@ -1,4 +1,4 @@
-package cn.mapview
+package cn.mapview.china
 
 object ChinaManager {
 

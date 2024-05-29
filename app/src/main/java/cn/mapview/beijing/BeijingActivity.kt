@@ -1,15 +1,17 @@
-package cn.mapview
+package cn.mapview.beijing
 
 import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import cn.mapview.databinding.ActivityHuangChuanBinding
+import cn.mapview.BaseMapView
+import cn.mapview.china.ChinaView
+import cn.mapview.databinding.ActivityBeijingBinding
 
-class HuangChuanActivity : AppCompatActivity() {
+class BeijingActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHuangChuanBinding
+    private lateinit var binding: ActivityBeijingBinding
     var scale: Float = 0f
     var mapWidth: Float = 1450f
     var mapHeight: Float = 1200f
@@ -18,7 +20,7 @@ class HuangChuanActivity : AppCompatActivity() {
     private val selectdColor = -0x14a3b9
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHuangChuanBinding.inflate(layoutInflater)
+        binding = ActivityBeijingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()
@@ -51,10 +53,10 @@ class HuangChuanActivity : AppCompatActivity() {
         binding.hcLayout.scaleX = scale
         binding.hcLayout.scaleY = scale
         binding.hcScrollView.smoothScrollTo(
-            (binding.hcLayout.width - screenWidth) / 2,
-            (binding.hcLayout.height - (scale * mapWidth)).toInt() / 2 - 200
+            (binding.hcLayout.width - screenWidth) / 2, (binding.hcLayout.height - (scale * mapWidth)).toInt() / 2 - 200
         )
     }
+
     private fun getScreenWidth(context: Context): Int {
         val manager = context.getSystemService(WINDOW_SERVICE) as WindowManager
         val defaultDisplay = manager.defaultDisplay

@@ -1,8 +1,10 @@
-package cn.mapview;
+package cn.mapview.china;
 
 import android.content.Context;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+
+import cn.mapview.BaseMapView;
 
 /**
  * @author data: 2024/5/29 13:54

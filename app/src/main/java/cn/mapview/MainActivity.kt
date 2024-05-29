@@ -7,7 +7,10 @@ import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import cn.mapview.ChinaMapView.OnProvinceSelectedListener
+import cn.mapview.beijing.BeijingActivity
+import cn.mapview.china.ChinaActivity
 import cn.mapview.databinding.ActivityMainBinding
+import cn.mapview.huangchuan.HuangChuanActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +48,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.scrollView.postDelayed({ scaleAndScroll() }, 800)
 
+        binding.china.setOnClickListener {
+            startActivity(Intent(this@MainActivity, ChinaActivity::class.java))
+        }
+        binding.bejing.setOnClickListener {
+            startActivity(Intent(this@MainActivity, BeijingActivity::class.java))
+        }
         binding.huangchuan.setOnClickListener {
             startActivity(Intent(this@MainActivity, HuangChuanActivity::class.java))
         }
