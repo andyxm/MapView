@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_map_bg"
+    android:background="@color/colorPrimary"
     tools:context=".china.ChinaActivity">
 
     <TextView
@@ -30,8 +30,8 @@
 
         <RelativeLayout
             android:id="@+id/hcLayout"
-            android:layout_width="3000px"
-            android:layout_height="3000px">
+            android:layout_width="5000px"
+            android:layout_height="5000px">
 
             <cn.mapview.huangchuan.HcView
                 android:id="@+id/hcMapView"
