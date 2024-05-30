@@ -26,7 +26,7 @@ public class BeijingView extends BaseMapView {
 
     @Override
     public String[] getSvgPaths() {
-        return BeijingManager.INSTANCE.getPath();
+        return BeijingManager.INSTANCE.getName();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class BeijingView extends BaseMapView {
 
     @Override
     public int bottom() {
-        return BeijingManager.INSTANCE.getPath().length - 1;
+        return BeijingManager.INSTANCE.getName().length - 1;
     }
 
     @Override

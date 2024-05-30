@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 public abstract class BaseMapView extends View {
     private static final int DEFAULT_COLOR = Color.rgb(0xff, 0xff, 0xff);
     private static final int DEFAULT_SELECTD_COLOR = Color.rgb(0x00, 0xff, 0xff);
-    private static final String TAG = "CustomMapView";
+    private static final String TAG = "BaseMapView";
     private int commonTextSixe = 25;
     private int textColor = 0xff108EE9;
     private PointF[] mPointFs = new PointF[4];
