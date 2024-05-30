@@ -95,7 +95,6 @@ public abstract class BaseMapView extends View {
 //                Path path =  XmlToPathConverter.INSTANCE.getXmlValue(this.getContext(),i);
 //                Path path = lParser.parser(svgPath);
                 xPaths[i] = getPath(i);
-
             }
         } catch (Exception e) {
             e.printStackTrace();

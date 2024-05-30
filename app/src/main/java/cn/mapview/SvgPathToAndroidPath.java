@@ -117,8 +117,6 @@ public class SvgPathToAndroidPath {
                     lPath.close();
                 }
                 break;
-                default:
-                    break;
             }
         }
         return lPath;
@@ -142,5 +140,4 @@ public class SvgPathToAndroidPath {
             ++mIndex;
         }
     }
-
 }
