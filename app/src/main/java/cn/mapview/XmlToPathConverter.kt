@@ -80,27 +80,54 @@ object XmlToPathConverter {
             return ""
         }
     }
-    fun getRawId(index: Int): Int {
-        return when (index) {
-            0 -> R.raw.path0
-            1 -> R.raw.path1
-            2 -> R.raw.path2
-            3 -> R.raw.path3
-            4 -> R.raw.path4
-            5 -> R.raw.path5
-            6 -> R.raw.path6
-            7 -> R.raw.path7
-            8 -> R.raw.path8
-            9 -> R.raw.path9
-            10 -> R.raw.path10
-            else -> {
-                R.raw.path0
+    fun getRawId(index: Int,isHc: Boolean): Int {
+        if (!isHc) {
+            return when (index) {
+                0 -> R.raw.path0
+                1 -> R.raw.path1
+                2 -> R.raw.path2
+                3 -> R.raw.path3
+                4 -> R.raw.path4
+                5 -> R.raw.path5
+                6 -> R.raw.path6
+                7 -> R.raw.path7
+                8 -> R.raw.path8
+                9 -> R.raw.path9
+                10 -> R.raw.path10
+                else -> {
+                    R.raw.path0
+                }
+            }
+        } else {
+            return when (index) {
+                0 -> R.raw.hc0
+                1 -> R.raw.hc1
+                2 -> R.raw.hc2
+                3 -> R.raw.hc3
+                4 -> R.raw.hc4
+                5 -> R.raw.hc5
+                6 -> R.raw.hc6
+                7 -> R.raw.hc7
+                8 -> R.raw.hc8
+                9 -> R.raw.hc9
+                10 -> R.raw.hc10
+                11 -> R.raw.hc11
+                12 -> R.raw.hc12
+                13 -> R.raw.hc13
+                14 -> R.raw.hc14
+                15 -> R.raw.hc15
+                16 -> R.raw.hc16
+                17 -> R.raw.hc17
+                18 -> R.raw.hc18
+                else -> {
+                    R.raw.hc0
+                }
             }
         }
     }
-    fun getXmlValue(context: Context, index: Int): Path? {
+    fun getXmlValue(context: Context, index: Int,isHc: Boolean = false): Path? {
         var path: Path? = null
-        val rawRes = getRawId(index)
+        val rawRes = getRawId(index,isHc)
         try {
             // DocumentBuilder对象
             val dbf = DocumentBuilderFactory.newInstance()

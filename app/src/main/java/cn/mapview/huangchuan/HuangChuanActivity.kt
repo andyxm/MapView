@@ -6,7 +6,6 @@ import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import cn.mapview.BaseMapView
-import cn.mapview.china.ChinaView
 import cn.mapview.databinding.ActivityHuangchuanBinding
 
 class HuangChuanActivity : AppCompatActivity() {
@@ -31,11 +30,6 @@ class HuangChuanActivity : AppCompatActivity() {
         scale = screenWidth / mapWidth
         binding.hcScrollView.postDelayed({ scaleAndScroll() }, 800)
         binding.hcMapView.apply {
-            setPaintColor(ChinaView.ChineArea.XinJiang.value, hasProjectColor, true)
-            setPaintColor(ChinaView.ChineArea.GanSu.value, hasProjectColor, true)
-            setPaintColor(ChinaView.ChineArea.SiChuan.value, hasProjectColor, true)
-            setPaintColor(ChinaView.ChineArea.GuiZhou.value, hasProjectColor, true)
-            setPaintColor(ChinaView.ChineArea.GuangDong.value, hasProjectColor, true)
             setSelectedColor(selectdColor)
             setOnProvinceDoubleClickListener { scaleAndScroll() }
             setOnProvinceSelectedListener(BaseMapView.OnProvinceSelectedListener { selected, repeatClick ->
@@ -43,8 +37,8 @@ class HuangChuanActivity : AppCompatActivity() {
                     scaleAndScroll()
                     return@OnProvinceSelectedListener
                 }
-                val chineArea = ChinaView.ChineArea.valueOf(selected)
-                binding.name.text = "名称: ${chineArea.name} 值: ${chineArea.value}"
+                val name = HuangChuanManager.name[selected]
+                binding.name.text = "名称: $name"
             })
         }
     }
