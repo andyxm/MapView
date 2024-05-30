@@ -2,9 +2,12 @@ package cn.mapview.china;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import cn.mapview.BaseMapView;
+import cn.mapview.SvgPathToAndroidPath;
 
 /**
  * @author data: 2024/5/29 13:54
@@ -114,6 +117,41 @@ public class ChinaView extends BaseMapView {
 
     public ChinaView(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+    private float svgPathScale = 2.5f;
+
+    private SvgPathToAndroidPath lParser;
+
+    @Override
+    protected void initPaths() {
+        try {
+            SvgPathToAndroidPath lParser = new SvgPathToAndroidPath();
+            lParser.setScale(svgPathScale);
+            for (int i = 0; i < getSvgPaths().length; i++) {
+                String name = getNames()[i];
+                Log.e("ChinaView","加载:" + name);
+                String svgPath = getSvgPaths()[i];
+                Path path = lParser.parser(svgPath);
+                Log.e("ChinaView","path:" + path);
+                xPaths[i] = path;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private SvgPathToAndroidPath getSvgPathToAndroidPath() {
+        if (lParser == null) {
+            lParser = new SvgPathToAndroidPath();
+            lParser.setScale(svgPathScale);
+        }
+        return lParser;
+    }
+
+    @Override
+    public Path getPath(int index) {
+        String svgPath = getSvgPaths()[index];
+        return getSvgPathToAndroidPath().parser(svgPath);
     }
 
     @Override

@@ -28,7 +28,7 @@ public abstract class BaseMapView extends View {
     private float width = 0;
     private int padding = 8;
     private float svgPathScale = 2.5f;
-    private Path[] xPaths = new Path[size()];
+    protected Path[] xPaths = new Path[size()];
     private Paint[] xPaints = new Paint[size()];
     private Paint xPaintsBorder;
     private Paint touchPaint;
@@ -85,22 +85,24 @@ public abstract class BaseMapView extends View {
      * 调整清晰度，竖直越大，地图越清晰，一般2.5倍即可，改成其他值之后，需要在drawOneArea方法中调整文字的大小和位置
      */
 
-    private void initPaths() {
+    protected void initPaths() {
         try {
-            SvgPathToAndroidPath lParser = new SvgPathToAndroidPath();
-            lParser.setScale(svgPathScale);
+//            SvgPathToAndroidPath lParser = new SvgPathToAndroidPath();
+//            lParser.setScale(svgPathScale);
             for (int i = 0; i < getSvgPaths().length; i++) {
 //                String svgPath = getSvgPaths()[i];
 //                Path path = XmlToPathConverter.INSTANCE.convertXmlToPath(this.getContext(),i);
-                Path path =  XmlToPathConverter.INSTANCE.getXmlValue(this.getContext(),i);
+//                Path path =  XmlToPathConverter.INSTANCE.getXmlValue(this.getContext(),i);
 //                Path path = lParser.parser(svgPath);
-                xPaths[i] = path;
+                xPaths[i] = getPath(i);
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public abstract Path getPath(int index);
+
 
     public abstract String[] getSvgPaths();
 

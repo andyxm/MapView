@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, HuangChuanActivity::class.java))
         }
 
-        SvgManager.printSvg(this.applicationContext)
+        XmlToPathConverter.printSvg(this.applicationContext)
     }
 
     private fun scaleAndScroll() {

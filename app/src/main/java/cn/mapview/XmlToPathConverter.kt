@@ -9,6 +9,10 @@ import androidx.annotation.RawRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.PathParser
 import org.w3c.dom.Element
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserFactory
+import java.io.IOException
+import java.io.InputStream
 import java.lang.reflect.Field
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -126,5 +130,38 @@ object XmlToPathConverter {
         }
 
         return path
+    }
+
+    fun printSvg(context: Context) {
+        try {
+            // 加载SVG文件
+            val inputStream: InputStream = context.assets.open("hc.svg")
+            // 创建XML解析器
+            val factory = XmlPullParserFactory.newInstance()
+            val parser: XmlPullParser = factory.newPullParser()
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            parser.setInput(inputStream, null)
+
+            var eventType = parser.eventType
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                when (eventType) {
+                    XmlPullParser.START_TAG -> {
+                        if (parser.name == "path") {
+                            // 如果是<path>标签
+                            val name = parser.getAttributeValue(null, "name")
+                            // 打印d属性的值
+                            val pathData = parser.getAttributeValue(null, "d")
+                            Log.e("Svg", name)
+                            Log.e("Svg", pathData)
+                        }
+                    }
+                }
+                eventType = parser.next()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
