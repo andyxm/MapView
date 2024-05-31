@@ -30,9 +30,8 @@
 
         <RelativeLayout
             android:id="@+id/hcLayout"
-            android:layout_width="5000px"
-            android:layout_height="5000px">
-
+            android:layout_width="3000dp"
+            android:layout_height="3000dp">
             <cn.mapview.huangchuan.HcView
                 android:id="@+id/hcMapView"
                 android:layout_width="1450px"

@@ -42,12 +42,12 @@ public class HcView extends BaseMapView {
 
     @Override
     public int bottom() {
-        return 0;
+        return 4;
     }
 
     @Override
     public int right() {
-        return 0;
+        return 2;
     }
 
     @Override
