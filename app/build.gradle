@@ -44,4 +44,5 @@ dependencies {
     implementation libs.androidx.activity
     testImplementation libs.junit
     implementation 'com.caverock:androidsvg-aar:1.4'
+    implementation 'com.blankj:utilcodex:1.31.1'
 }
