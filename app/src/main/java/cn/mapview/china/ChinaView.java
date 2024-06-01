@@ -165,6 +165,11 @@ public class ChinaView extends BaseMapView {
     }
 
     @Override
+    public String getName(int index) {
+        return ChinaManager.INSTANCE.getProvinceNames()[index];
+    }
+
+    @Override
     public int bottom() {
         return ChineArea.HaiNan.value;
     }

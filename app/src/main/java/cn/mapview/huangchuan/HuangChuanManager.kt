@@ -6,29 +6,39 @@ package cn.mapview.huangchuan
  * desc:
  */
 object HuangChuanManager {
-    val name = arrayOf(
-        "白店乡",
-        "卜塔集镇",
-        "传流店乡",
-        "付店镇",
-        "黄湖农场",
-        "黄寺岗镇",
-        "潢川县",
-        "江家集镇",
 
-        "来龙乡",
-        "隆古乡",
-        "仁和镇",
-        "伞陂寺镇",
-        "上油岗乡",
-        "双柳树镇",
-        "谈店乡",
-        "桃林铺镇",
+    private var nameNumbers = mutableMapOf<Int, String>()
 
-        "魏岗乡",
-        "踅孜镇",
-        "张集乡"
-    )
+    fun getNameFromNumber(index: Int): String {
+        if (nameNumbers.isNotEmpty()) {
+            if (nameNumbers.contains(index)) {
+                return nameNumbers[index]!!
+            } else {
+                return ""
+            }
+        } else {
+            return ""
+        }
+    }
 
+    fun updateName(index: Int, number: Int) {
+        if (nameNumbers.isNotEmpty()) {
+            nameNumbers[index] = "${nameNumbers[index]}/n$number"
+        }
+    }
+
+    fun clearNameNumbers() {
+        nameNumbers.clear()
+    }
+
+    fun getNames(): Array<String> {
+        val names = HcArea.getNames()
+        if (nameNumbers.isEmpty()) {
+            names.forEachIndexed { index, s ->
+                nameNumbers[index] = s
+            }
+        }
+        return names
+    }
 
 }

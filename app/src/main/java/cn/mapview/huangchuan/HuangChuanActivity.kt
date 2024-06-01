@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import cn.mapview.BaseMapView
 import cn.mapview.databinding.ActivityHuangchuanBinding
+import cn.mapview.huangchuan.HcArea.Companion.getNames
 
 class HuangChuanActivity : AppCompatActivity() {
 
@@ -37,9 +38,13 @@ class HuangChuanActivity : AppCompatActivity() {
                     scaleAndScroll()
                     return@OnProvinceSelectedListener
                 }
-                val name = HuangChuanManager.name[selected]
-                binding.name.text = "名称: $name"
+                val area = HcArea.getHcArea(selected)
+                binding.name.text = "名称: ${area.value}"
             })
+        }
+        binding.update.setOnClickListener {
+            HuangChuanManager.updateName(HcArea.BDX.index,20)
+            binding.hcMapView.updateNames()
         }
     }
 
@@ -57,5 +62,10 @@ class HuangChuanActivity : AppCompatActivity() {
         val outMetrics = DisplayMetrics()
         defaultDisplay.getMetrics(outMetrics)
         return outMetrics.widthPixels
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        HuangChuanManager.clearNameNumbers()
     }
 }

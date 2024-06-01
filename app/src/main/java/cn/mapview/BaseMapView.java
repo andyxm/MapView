@@ -107,6 +107,8 @@ public abstract class BaseMapView extends View {
 
     public abstract String[] getNames();
 
+    public abstract String getName(int index);
+
     private void initPaints() {
         for (int i = 0; i < xPaints.length; i++) {
             Paint xPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -124,22 +126,6 @@ public abstract class BaseMapView extends View {
         xPaintsBorder.setStrokeWidth(1.5f);
     }
 
-    /**
-     * 计算地图边界
-     * 1.黑龙江是中国最东，最北的省份
-     * 2.新疆是中国最西的省份
-     * 3.海南是中国最南的省份
-     * <p/>
-     * 地图边界为
-     * 0点                  1点
-     * 0,0------------------heilongjiang.right,0
-     * |                      |
-     * |                      |
-     * 0,hainan.bottom------heilongjiang.right,hainan.bottom
-     * 3点                   2点
-     * 地图宽度--->heilongjiang.right
-     * 地图高度--->hainan.bottom
-     */
     private void computeBounds() {
         RectF hljRF = new RectF();
         xPaths[right()].computeBounds(hljRF, true);
@@ -238,7 +224,7 @@ public abstract class BaseMapView extends View {
         paddingTop = getPaddingTop(index);
         paddingLeft = getPaddingLeft(index);
         setTextSize(textPaint, index);
-        pCanvas.drawText(getNames()[index], testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
+        pCanvas.drawText(getName(index), testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
     }
 
     private void drawSelectedMap(Canvas pCanvas) {

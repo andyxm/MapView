@@ -42,6 +42,11 @@ public class BeijingView extends BaseMapView {
     }
 
     @Override
+    public String getName(int index) {
+        return BeijingManager.INSTANCE.getName()[index];
+    }
+
+    @Override
     public int bottom() {
         return BeijingManager.INSTANCE.getName().length - 1;
     }
