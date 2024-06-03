@@ -47,12 +47,12 @@ public class HcView extends BaseMapView {
 
     @Override
     public int bottom() {
-        return HcArea.HHNC.getIndex();
+        return HcArea.RHZ.getIndex();
     }
 
     @Override
     public int right() {
-        return HcArea.CLDX.getIndex();
+        return HcArea.ZJX.getIndex();
     }
 
     @Override
