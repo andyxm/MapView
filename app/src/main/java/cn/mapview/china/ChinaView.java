@@ -1,8 +1,10 @@
 package cn.mapview.china;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -334,4 +336,15 @@ public class ChinaView extends BaseMapView {
             textPaint.setTextSize(22);
         }
     }
+
+    @Override
+    public boolean isCustomDrawText(int index) {
+        return false;
+    }
+
+    @Override
+    public void drawCustomDrawText(Canvas pCanvas, Paint textPaint, int index, RectF rectF, int paddingTop, int paddingLeft, int padding) {
+
+    }
+
 }

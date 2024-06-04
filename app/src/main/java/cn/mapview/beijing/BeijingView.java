@@ -1,8 +1,10 @@
 package cn.mapview.beijing;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import cn.mapview.BaseMapView;
@@ -79,5 +81,15 @@ public class BeijingView extends BaseMapView {
         if (index == 2) {
             textPaint.setTextSize(18);
         }
+    }
+
+    @Override
+    public boolean isCustomDrawText(int index) {
+        return false;
+    }
+
+    @Override
+    public void drawCustomDrawText(Canvas pCanvas, Paint textPaint, int index, RectF rectF, int paddingTop, int paddingLeft, int padding) {
+
     }
 }

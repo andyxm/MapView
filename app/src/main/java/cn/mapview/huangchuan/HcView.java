@@ -1,9 +1,12 @@
 package cn.mapview.huangchuan;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import cn.mapview.BaseMapView;
 import cn.mapview.XmlToPathConverter;
@@ -163,4 +166,22 @@ public class HcView extends BaseMapView {
             textPaint.setTextSize(14);
         }
     }
+
+    @Override
+    public boolean isCustomDrawText(int index) {
+        return index == HcArea.HHNC.getIndex();
+    }
+
+    @Override
+    public void drawCustomDrawText(Canvas pCanvas, Paint textPaint, int index, RectF rectF, int paddingTop, int paddingLeft, int padding) {
+        Log.d("HcView","rectF: "+ rectF.toString()+ "top: " +paddingTop +  "left: " +paddingLeft +  "padding: " +padding);
+        float x = rectF.left + (rectF.right - rectF.left) / 2;
+        float y = rectF.top + (rectF.bottom - rectF.top) / 2;
+        Log.d("HcView","x: "+ x+ ",y: " +y);
+        textPaint.setStrokeWidth(1.5f);
+        textPaint.setAntiAlias(true);
+        pCanvas.drawLine(x+10 ,y+10,x + 14,y- 64,textPaint);
+        pCanvas.drawText(getName(index), x - padding + paddingLeft + 20, y + paddingTop - 70, textPaint);
+    }
+
 }

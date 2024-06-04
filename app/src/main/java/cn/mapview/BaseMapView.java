@@ -224,8 +224,16 @@ public abstract class BaseMapView extends View {
         paddingTop = getPaddingTop(index);
         paddingLeft = getPaddingLeft(index);
         setTextSize(textPaint, index);
-        pCanvas.drawText(getName(index), testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
+        if (isCustomDrawText(index)) {
+            drawCustomDrawText(pCanvas,textPaint,index,testRect,paddingTop,paddingLeft,padding);
+        } else {
+            pCanvas.drawText(getName(index), testRect.left + testRect.width() / 2 - padding + paddingLeft, testRect.top + testRect.height() / 2 + paddingTop, textPaint);
+        }
     }
+
+    public abstract boolean isCustomDrawText(int index);
+
+    public abstract void drawCustomDrawText(Canvas pCanvas, Paint textPaint, int index,RectF rectF,int paddingTop,int paddingLeft,int padding);
 
     private void drawSelectedMap(Canvas pCanvas) {
         if (selected >= 0) {
