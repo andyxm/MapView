@@ -2,6 +2,7 @@ package cn.mapview.huangchuan;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -182,6 +183,14 @@ public class HcView extends BaseMapView {
         textPaint.setAntiAlias(true);
         pCanvas.drawLine(x+10 ,y+10,x + 14,y- 64,textPaint);
         pCanvas.drawText(getName(index), x - padding + paddingLeft + 20, y + paddingTop - 70, textPaint);
+    }
+
+    @Override
+    public int getSelectTextColor(int selected) {
+        if (selected == HcArea.HHNC.getIndex()) {
+            return 0xff108EE9;
+        }
+        return 0xffffffff;
     }
 
 }

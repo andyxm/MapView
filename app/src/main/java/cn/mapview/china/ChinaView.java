@@ -347,4 +347,9 @@ public class ChinaView extends BaseMapView {
 
     }
 
+    @Override
+    public int getSelectTextColor(int selected) {
+        return 0xffffffff;
+    }
+
 }

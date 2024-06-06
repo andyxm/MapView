@@ -243,11 +243,13 @@ public abstract class BaseMapView extends View {
             pCanvas.drawPath(xPaths[selected], touchPaint);
             Paint textPaint = new Paint();
             textPaint.setStyle(Paint.Style.FILL);
-            textPaint.setColor(0xffffffff);
+            textPaint.setColor(getSelectTextColor(selected));
             textPaint.setTextSize(commonTextSixe);
             drawOneArea(pCanvas, textPaint, selected);
         }
     }
+
+    public abstract int getSelectTextColor(int selected);
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

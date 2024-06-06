@@ -92,4 +92,9 @@ public class BeijingView extends BaseMapView {
     public void drawCustomDrawText(Canvas pCanvas, Paint textPaint, int index, RectF rectF, int paddingTop, int paddingLeft, int padding) {
 
     }
+
+    @Override
+    public int getSelectTextColor(int selected) {
+        return 0xffffffff;
+    }
 }

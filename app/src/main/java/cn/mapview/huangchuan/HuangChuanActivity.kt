@@ -1,6 +1,7 @@
 package cn.mapview.huangchuan
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.WindowManager
@@ -22,7 +23,6 @@ class HuangChuanActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHuangchuanBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initView()
     }
 
@@ -31,7 +31,7 @@ class HuangChuanActivity : AppCompatActivity() {
         scale = screenWidth / mapWidth
         binding.hcScrollView.postDelayed({ scaleAndScroll() }, 800)
         binding.hcMapView.apply {
-            setSelectedColor(selectdColor)
+//            setSelectedColor(selectdColor)
             setOnProvinceDoubleClickListener { scaleAndScroll() }
             setOnProvinceSelectedListener(BaseMapView.OnProvinceSelectedListener { selected, repeatClick ->
                 if (repeatClick) {
